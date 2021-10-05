@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,31 +14,32 @@ import authValidationSchema from "../validation/authValidationSchema";
 import ValidatedTextInput from "../components/ValidatedTextInput";
 
 const AuthScreen = props => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-      },
-      onSubmit: values => {
-        console.log(values);
-      },
-      validationSchema: authValidationSchema,
-    });
+  // const [isLogin, setIsLogin] = useState(true);
+  const {
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    values,
+    errors,
+    touched,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      isLogin: true,
+    },
+    onSubmit: values => {
+      console.log("_____SUBMIT");
+      console.log(values);
+    },
+    validationSchema: authValidationSchema,
+  });
 
-  const handleFormConfirm = () => {
-    if (!isLogin && values.password !== confirmedPassword) {
-      console.log("passwords didn’t match");
-      setPasswordError("These passwords do not match");
-    } else {
-      console.log("passwords match");
-      setPasswordError("");
-      handleSubmit();
-    }
-  };
+  // useEffect(() => {
+  //   setFieldValue("isLogin", isLogin);
+  // }, [isLogin]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -54,7 +55,6 @@ const AuthScreen = props => {
             error={errors.email}
             touched={touched.email}
           />
-
           <ValidatedTextInput
             label="Password"
             value={values.password}
@@ -65,33 +65,34 @@ const AuthScreen = props => {
             error={errors.password}
             touched={touched.password}
           />
-
-          {!isLogin && (
-            <>
-              <ValidatedTextInput
-                label="Confirm password"
-                value={confirmedPassword}
-                onChangeText={setConfirmedPassword}
-                autoCapitalize="none"
-                secureTextEntry
-                error={passwordError}
-              />
-              {!!passwordError && (
-                <Text style={styles.errorText}>{passwordError}</Text>
-              )}
-            </>
+          {!values.isLogin && (
+            <ValidatedTextInput
+              label="Confirm password"
+              value={values.confirmPassword}
+              onChangeText={handleChange("confirmPassword")}
+              onBlur={handleBlur("confirmPassword")}
+              autoCapitalize="none"
+              secureTextEntry
+              error={errors.confirmPassword}
+              touched={touched.confirmPassword}
+            />
           )}
 
           <View style={styles.actionsBlock}>
             <CustomButton
-              title={isLogin ? "Login" : "Register"}
+              title={values.isLogin ? "Login" : "Register"}
               color={colors.secondary.main}
-              onPress={handleFormConfirm}
+              onPress={handleSubmit}
             />
             <Text style={styles.centeredText}>OR</Text>
             <CustomButton
-              title={isLogin ? "Create a new account" : "Back to logging in"}
-              onPress={() => setIsLogin(prev => !prev)}
+              title={
+                values.isLogin ? "Create a new account" : "Back to logging in"
+              }
+              onPress={() => {
+                // setIsLogin(prev => !prev);
+                setFieldValue("isLogin", !values.isLogin);
+              }}
             />
           </View>
         </Card>
