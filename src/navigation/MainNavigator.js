@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import { useSelector } from "react-redux";
-import AppNavigator from "./navigators/AppNavigator";
+import HomeNavigator from "./navigators/HomeNavigator";
 import AuthNavigator from "./navigators/AuthNavigator";
 
 const MainNavigator = props => {
@@ -10,7 +10,7 @@ const MainNavigator = props => {
   return (
     <NavigationContainer>
       {!idToken && <AuthNavigator />}
-      {idToken && <AppNavigator />}
+      {idToken && <HomeNavigator />}
     </NavigationContainer>
   );
 };

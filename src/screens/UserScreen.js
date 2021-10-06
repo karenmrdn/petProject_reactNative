@@ -1,16 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
-const AppScreen = props => {
+const UserScreen = () => {
   return (
     <View style={styles.centered}>
-      <Text>AppScreen</Text>
+      <Text>UserScreen</Text>
     </View>
   );
-};
-
-export const appOptions = {
-  headerTitle: "Main Screen",
 };
 
 const styles = StyleSheet.create({
@@ -21,4 +17,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppScreen;
+export const userOptions = {
+  headerTitle: "Workshop",
+};
+
+export default UserScreen;
