@@ -2,7 +2,7 @@ import React from "react";
 import { View, Button, StyleSheet } from "react-native";
 import colors from "../constants/colors";
 
-const CustomButton = props => {
+const ButtonPrimary = props => {
   return (
     <View style={[styles.btnContainer, props.style]}>
       <Button
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomButton;
+export default ButtonPrimary;

@@ -5,16 +5,22 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
 import Card from "../components/Card";
 import { useFormik } from "formik";
-import CustomButton from "../components/CustomButton";
+import ButtonPrimary from "../components/ButtonPrimary";
 import colors from "../constants/colors";
 import authValidationSchema from "../validation/authValidationSchema";
 import ValidatedTextInput from "../components/ValidatedTextInput";
+import auth from "@react-native-firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { authorize } from "../store/auth/authThunks";
+import ButtonSecondary from "../components/ButtonSecondary";
 
 const AuthScreen = props => {
-  // const [isLogin, setIsLogin] = useState(true);
+  const dispatch = useDispatch();
+  const isGettingAuthData = useSelector(state => state.auth.isGettingAuthData);
   const {
     handleChange,
     handleBlur,
@@ -30,16 +36,11 @@ const AuthScreen = props => {
       confirmPassword: "",
       isLogin: true,
     },
-    onSubmit: values => {
-      console.log("_____SUBMIT");
-      console.log(values);
-    },
     validationSchema: authValidationSchema,
+    onSubmit: values => {
+      dispatch(authorize(values.email, values.password, values.isLogin));
+    },
   });
-
-  // useEffect(() => {
-  //   setFieldValue("isLogin", isLogin);
-  // }, [isLogin]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -77,28 +78,48 @@ const AuthScreen = props => {
               touched={touched.confirmPassword}
             />
           )}
-
-          <View style={styles.actionsBlock}>
-            <CustomButton
-              title={values.isLogin ? "Login" : "Register"}
-              color={colors.secondary.main}
-              onPress={handleSubmit}
-            />
-            <Text style={styles.centeredText}>OR</Text>
-            <CustomButton
-              title={
-                values.isLogin ? "Create a new account" : "Back to logging in"
-              }
-              onPress={() => {
-                // setIsLogin(prev => !prev);
-                setFieldValue("isLogin", !values.isLogin);
-              }}
-            />
-          </View>
+          {isGettingAuthData ? (
+            <View>
+              <ActivityIndicator color={colors.secondary.main} size="large" />
+            </View>
+          ) : (
+            <View style={styles.actionsBlock}>
+              <ButtonPrimary
+                title={values.isLogin ? "Login" : "Register"}
+                color={colors.secondary.main}
+                onPress={handleSubmit}
+                style={styles.confirmBtn}
+              />
+              {values.isLogin && (
+                <View style={styles.socialsBlock}>
+                  <ButtonSecondary
+                    title="Continue with Google"
+                    style={styles.socialBtn}
+                  />
+                  <ButtonSecondary
+                    title="Continue with Facebook"
+                    style={styles.socialBtn}
+                  />
+                </View>
+              )}
+              <ButtonPrimary
+                title={
+                  values.isLogin ? "Create a new account" : "Back to logging in"
+                }
+                onPress={() => {
+                  setFieldValue("isLogin", !values.isLogin);
+                }}
+              />
+            </View>
+          )}
         </Card>
       </View>
     </TouchableWithoutFeedback>
   );
+};
+
+export const authOptions = {
+  headerTitle: "Authentication",
 };
 
 const styles = StyleSheet.create({
@@ -110,35 +131,21 @@ const styles = StyleSheet.create({
   card: {
     width: "90%",
   },
-  inputLabel: {
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  textInput: {
-    borderRadius: 8,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    marginBottom: 8,
-    paddingHorizontal: 8,
-  },
-  errorTextInput: {
-    borderColor: colors.error.main,
-    backgroundColor: colors.error.light,
-  },
-  centeredText: {
-    textAlign: "center",
-    marginVertical: 4,
+  confirmBtn: {
+    marginBottom: 12,
   },
   actionsBlock: {
     marginTop: 8,
   },
-  errorText: {
-    color: colors.error.main,
+  socialsBlock: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  socialBtn: {
+    width: "45%",
   },
 });
-
-export const authOptions = {
-  headerTitle: "Authentication",
-};
 
 export default AuthScreen;

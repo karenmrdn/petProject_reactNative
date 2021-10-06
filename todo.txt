@@ -1,0 +1,7 @@
+Create RN app:
+1. Login with the same account as on the web final app
+2. On the main page we have the circular button with wave animation
+3. Use redux 
+4. Save instances in firebase DB
+5. After creating an instance we need to be redirected
+to the previous screen but with the different add button position.

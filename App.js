@@ -1,9 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import MainNavigator from "./src/navigation/MainNavigator";
+import StoreProvider from "./src/store/StoreProvider";
 
 const App = () => {
-  return <MainNavigator />;
+  return (
+    <StoreProvider>
+      <MainNavigator />
+    </StoreProvider>
+  );
 };
 
 const styles = StyleSheet.create({

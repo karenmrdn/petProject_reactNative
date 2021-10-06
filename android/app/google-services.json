@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "788516196793",
+    "project_id": "testproject-room4",
+    "storage_bucket": "testproject-room4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788516196793:android:f39c7063351b409295a668",
+        "android_client_info": {
+          "package_name": "com.petproject_reactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788516196793-84a7603eclrge0rf9jpqqg8pi604tf2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petproject_reactnative",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "788516196793-e5gf65l5tggd24d5sgsj66c0rihk8e4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD1FrFeN6mLgnDXhsIWGkfKpXKTTzS6JI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788516196793-e5gf65l5tggd24d5sgsj66c0rihk8e4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
