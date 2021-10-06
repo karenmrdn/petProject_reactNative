@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
@@ -13,10 +12,20 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import colors from "../constants/colors";
 import authValidationSchema from "../validation/authValidationSchema";
 import ValidatedTextInput from "../components/ValidatedTextInput";
-import auth from "@react-native-firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { authorize } from "../store/auth/authThunks";
+import { authorize, signInWithGoogle } from "../store/auth/authThunks";
 import ButtonSecondary from "../components/ButtonSecondary";
+import auth from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
+// const onGoogleButtonPress = async () => {
+//   const { idToken } = await GoogleSignin.signIn();
+//   console.log(idToken);
+
+//   const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+//   return auth().signInWithCredential(googleCredential);
+// };
 
 const AuthScreen = props => {
   const dispatch = useDispatch();
@@ -41,6 +50,10 @@ const AuthScreen = props => {
       dispatch(authorize(values.email, values.password, values.isLogin));
     },
   });
+
+  const handleGoogleSignIn = () => {
+    dispatch(signInWithGoogle());
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -95,6 +108,7 @@ const AuthScreen = props => {
                   <ButtonSecondary
                     title="Continue with Google"
                     style={styles.socialBtn}
+                    onPress={handleGoogleSignIn}
                   />
                   <ButtonSecondary
                     title="Continue with Facebook"

@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import { useSelector } from "react-redux";
-import AppNavigator from "./components/AppNavigator";
-import AuthNavigator from "./components/AuthNavigator";
+import AppNavigator from "./navigators/AppNavigator";
+import AuthNavigator from "./navigators/AuthNavigator";
 
 const MainNavigator = props => {
   const idToken = useSelector(state => state.auth.idToken);

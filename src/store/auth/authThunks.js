@@ -1,5 +1,6 @@
 import { authActions } from "./authSlice";
 import auth from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export const authorize = (email, password, isLogin) => async dispatch => {
   dispatch(authActions.toggleIsGettingAuthData());
@@ -65,6 +66,27 @@ export const authorize = (email, password, isLogin) => async dispatch => {
     }
 
     console.error(error);
+  }
+
+  dispatch(authActions.toggleIsGettingAuthData());
+};
+
+export const signInWithGoogle = () => async dispatch => {
+  dispatch(authActions.toggleIsGettingAuthData());
+
+  try {
+    const { idToken } = await GoogleSignin.signIn();
+
+    dispatch(authActions.setToken(idToken));
+    console.log(idToken);
+
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    await auth().signInWithCredential(googleCredential);
+
+    console.log("Signed in with Google!");
+  } catch (error) {
+    console.error("authWithGoogle - ", error);
   }
 
   dispatch(authActions.toggleIsGettingAuthData());

@@ -18,7 +18,7 @@ const ButtonSecondary = props => {
 
   return (
     <View style={[styles.container, props.style]}>
-      <TouchableComponent style={{ flex: 1 }}>
+      <TouchableComponent style={{ flex: 1 }} onPress={props.onPress}>
         <View style={styles.btn}>
           <Text style={styles.btnText}>{props.title}</Text>
         </View>
