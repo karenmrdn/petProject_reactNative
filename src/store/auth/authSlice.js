@@ -13,9 +13,6 @@ const authSlice = createSlice({
     toggleIsGettingAuthData(state, action) {
       state.isGettingAuthData = !state.isGettingAuthData;
     },
-    logout(state, action) {
-      state.idToken = null;
-    },
   },
 });
 

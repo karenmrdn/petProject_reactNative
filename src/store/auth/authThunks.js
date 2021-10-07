@@ -75,6 +75,8 @@ export const signInWithGoogle = () => async dispatch => {
   dispatch(authActions.toggleIsGettingAuthData());
 
   try {
+    await GoogleSignin.signOut();
+
     const { idToken } = await GoogleSignin.signIn();
 
     dispatch(authActions.setToken(idToken));
@@ -90,4 +92,10 @@ export const signInWithGoogle = () => async dispatch => {
   }
 
   dispatch(authActions.toggleIsGettingAuthData());
+};
+
+export const signOut = () => async dispatch => {
+  await auth().signOut();
+
+  dispatch(authActions.setToken(null));
 };
