@@ -35,11 +35,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   errorTextInput: {
-    borderColor: colors.error.main,
-    backgroundColor: colors.error.light,
+    borderColor: colors.error.e900,
+    backgroundColor: colors.error.e100,
   },
   errorText: {
-    color: colors.error.main,
+    color: colors.error.e900,
   },
 });
 

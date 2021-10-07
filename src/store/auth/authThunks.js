@@ -2,6 +2,7 @@ import { authActions } from "./authSlice";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { LoginManager, AccessToken } from "react-native-fbsdk-next";
+import { errorsActions } from "../errors/errorsSlice";
 
 export const authorize = (email, password, isLogin) => async dispatch => {
   dispatch(authActions.toggleIsGettingAuthData());
@@ -22,51 +23,50 @@ export const authorize = (email, password, isLogin) => async dispatch => {
 
     dispatch(authActions.setToken(idToken));
   } catch (error) {
+    let errorMessage;
+
     if (isLogin) {
       switch (error.code) {
         case "auth/invalid-email":
-          console.log("the email address is not valid.");
+          errorMessage = "The email address is not valid.";
           break;
         case "auth/user-disabled":
-          console.log(
-            "The user corresponding to the given email has been disabled.",
-          );
+          errorMessage =
+            "The user corresponding to the given email has been disabled.";
           break;
         case "auth/user-not-found":
-          console.log("There is no user corresponding to the given email.");
+          errorMessage = "There is no user corresponding to the given email.";
           break;
         case "auth/wrong-password":
-          console.log(
-            "The password is invalid for the given email, or the account corresponding to the email does not have a password set.",
-          );
+          errorMessage =
+            "The password is invalid for the given email, or the account corresponding to the email does not have a password set.";
           break;
 
         default:
-          console.log("Unexpected error");
+          errorMessage = error.message;
       }
     } else {
       switch (error.code) {
         case "auth/email-already-in-use":
-          console.log(
-            "There already exists an account with the given email address.",
-          );
+          errorMessage =
+            "There already exists an account with the given email address.";
           break;
         case "auth/invalid-email":
-          console.log("Email address is not valid.");
+          errorMessage = "Email address is not valid.";
           break;
         case "auth/operation-not-allowed":
-          console.log("Email/password accounts are not enabled.");
+          errorMessage = "Email/password accounts are not enabled.";
           break;
         case "auth/weak-password":
-          console.log("Password is not strong enough.");
+          errorMessage = "Password is not strong enough.";
           break;
 
         default:
-          console.log("Unexpected error");
+          errorMessage = error.message;
       }
     }
 
-    console.error(error);
+    dispatch(errorsActions.setError(errorMessage));
   }
 
   dispatch(authActions.toggleIsGettingAuthData());
@@ -89,7 +89,7 @@ export const signInWithGoogle = () => async dispatch => {
 
     console.log("Signed in with Google!");
   } catch (error) {
-    console.error("authWithGoogle - ", error);
+    dispatch(errorsActions.setError(error.message));
   }
 
   dispatch(authActions.toggleIsGettingAuthData());
@@ -123,7 +123,7 @@ export const signInWithFacebook = () => async dispatch => {
     await auth().signInWithCredential(facebookCredential);
     console.log("Signed in with Facebook");
   } catch (error) {
-    console.error(error);
+    dispatch(errorsActions.setError(error.message));
   }
 
   dispatch(authActions.toggleIsGettingAuthData());
