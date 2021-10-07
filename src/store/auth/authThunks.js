@@ -1,6 +1,7 @@
 import { authActions } from "./authSlice";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { LoginManager, AccessToken } from "react-native-fbsdk-next";
 
 export const authorize = (email, password, isLogin) => async dispatch => {
   dispatch(authActions.toggleIsGettingAuthData());
@@ -89,6 +90,40 @@ export const signInWithGoogle = () => async dispatch => {
     console.log("Signed in with Google!");
   } catch (error) {
     console.error("authWithGoogle - ", error);
+  }
+
+  dispatch(authActions.toggleIsGettingAuthData());
+};
+
+export const signInWithFacebook = () => async dispatch => {
+  dispatch(authActions.toggleIsGettingAuthData());
+
+  try {
+    LoginManager.logOut();
+
+    const result = await LoginManager.logInWithPermissions([
+      "public_profile",
+      "email",
+    ]);
+    if (result.isCancelled) {
+      throw new Error("Login process was cancelled.");
+    }
+
+    const data = await AccessToken.getCurrentAccessToken();
+    if (!data) {
+      throw new Error("Something went wrong obtaining access token.");
+    }
+    console.log(data.accessToken);
+    dispatch(authActions.setToken(data.accessToken));
+
+    const facebookCredential = auth.FacebookAuthProvider.credential(
+      data.accessToken,
+    );
+
+    await auth().signInWithCredential(facebookCredential);
+    console.log("Signed in with Facebook");
+  } catch (error) {
+    console.error(error);
   }
 
   dispatch(authActions.toggleIsGettingAuthData());

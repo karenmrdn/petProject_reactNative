@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -13,10 +13,12 @@ import colors from "../constants/colors";
 import authValidationSchema from "../validation/authValidationSchema";
 import ValidatedTextInput from "../components/ValidatedTextInput";
 import { useDispatch, useSelector } from "react-redux";
-import { authorize, signInWithGoogle } from "../store/auth/authThunks";
+import {
+  authorize,
+  signInWithFacebook,
+  signInWithGoogle,
+} from "../store/auth/authThunks";
 import ButtonSecondary from "../components/ButtonSecondary";
-import { LoginManager, AccessToken } from "react-native-fbsdk-next";
-import auth from "@react-native-firebase/auth";
 
 const AuthScreen = props => {
   const dispatch = useDispatch();
@@ -41,40 +43,6 @@ const AuthScreen = props => {
       dispatch(authorize(values.email, values.password, values.isLogin));
     },
   });
-
-  const handleGoogleSignIn = () => {
-    dispatch(signInWithGoogle());
-  };
-
-  const onFacebookButtonPress = async () => {
-    LoginManager.logOut();
-
-    const result = await LoginManager.logInWithPermissions([
-      "public_profile",
-      "email",
-    ]);
-    if (result.isCancelled) {
-      throw new Error("Login process was cancelled.");
-    }
-
-    const data = await AccessToken.getCurrentAccessToken();
-    if (!data) {
-      throw new Error("Something went wrong obtaining access token.");
-    }
-    console.log(data.accessToken);
-
-    const facebookCredential = auth.FacebookAuthProvider.credential(
-      data.accessToken,
-    );
-
-    return auth().signInWithCredential(facebookCredential);
-  };
-
-  const handleFacebookSignIn = () => {
-    onFacebookButtonPress()
-      .then(() => console.log("Signed in with Facebook"))
-      .catch(error => console.error(error));
-  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -129,12 +97,12 @@ const AuthScreen = props => {
                   <ButtonSecondary
                     title="Continue with Google"
                     style={styles.socialBtn}
-                    onPress={handleGoogleSignIn}
+                    onPress={() => dispatch(signInWithGoogle())}
                   />
                   <ButtonSecondary
                     title="Continue with Facebook"
                     style={styles.socialBtn}
-                    onPress={handleFacebookSignIn}
+                    onPress={() => dispatch(signInWithFacebook())}
                   />
                 </View>
               )}
