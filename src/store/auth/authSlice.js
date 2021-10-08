@@ -3,16 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    idToken: null,
     displayName: "",
     email: "",
     photoUrl: "",
     isGettingAuthData: false,
   },
   reducers: {
-    // setToken(state, action) {
-    //   state.idToken = action.payload;
-    // },
     toggleIsGettingAuthData(state, action) {
       state.isGettingAuthData = !state.isGettingAuthData;
     },

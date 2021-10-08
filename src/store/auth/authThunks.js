@@ -18,10 +18,6 @@ export const authorize = (email, password, isLogin) => async dispatch => {
     const authResponse = isLogin
       ? await auth().signInWithEmailAndPassword(email, password)
       : await auth().createUserWithEmailAndPassword(email, password);
-
-    // const idToken = await authResponse.user.getIdToken();
-
-    // dispatch(authActions.setToken(idToken));
   } catch (error) {
     let errorMessage;
 
@@ -79,14 +75,9 @@ export const signInWithGoogle = () => async dispatch => {
 
     const { idToken } = await GoogleSignin.signIn();
 
-    // dispatch(authActions.setToken(idToken));
-    // console.log(idToken);
-
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
     await auth().signInWithCredential(googleCredential);
-
-    // console.log("Signed in with Google!");
   } catch (error) {
     dispatch(errorsActions.setError(error.message));
   }
@@ -112,15 +103,12 @@ export const signInWithFacebook = () => async dispatch => {
     if (!data) {
       throw new Error("Something went wrong obtaining access token.");
     }
-    // console.log(data.accessToken);
-    // dispatch(authActions.setToken(data.accessToken));
 
     const facebookCredential = auth.FacebookAuthProvider.credential(
       data.accessToken,
     );
 
     await auth().signInWithCredential(facebookCredential);
-    // console.log("Signed in with Facebook");
   } catch (error) {
     dispatch(errorsActions.setError(error.message));
   }
@@ -130,6 +118,4 @@ export const signInWithFacebook = () => async dispatch => {
 
 export const signOut = () => async dispatch => {
   await auth().signOut();
-
-  // dispatch(authActions.setToken(null));
 };
