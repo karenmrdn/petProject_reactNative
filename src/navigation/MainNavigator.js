@@ -14,16 +14,16 @@ const MainNavigator = props => {
   const dispatch = useDispatch();
   const error = useSelector(state => state.errors.error);
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
 
   const handleAuthStateChanged = user => {
     setUser(user);
-    console.log(user);
+    // console.log(user);
     dispatch(
       authActions.setUserData({
-        displayName: user.displayName,
-        email: user.email,
-        photoUrl: user.photoURL,
+        displayName: user?.displayName,
+        email: user?.email,
+        photoUrl: user?.photoURL,
       }),
     );
 
