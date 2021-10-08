@@ -6,19 +6,19 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from "react-native";
-import Card from "../components/Card";
+import Card from "../components/UI/Card";
 import { useFormik } from "formik";
-import ButtonPrimary from "../components/ButtonPrimary";
+import ButtonPrimary from "../components/UI/ButtonPrimary";
 import colors from "../constants/colors";
 import authValidationSchema from "../validation/authValidationSchema";
-import ValidatedTextInput from "../components/ValidatedTextInput";
+import ValidatedTextInput from "../components/UI/ValidatedTextInput";
 import { useDispatch, useSelector } from "react-redux";
 import {
   authorize,
   signInWithFacebook,
   signInWithGoogle,
 } from "../store/auth/authThunks";
-import ButtonSecondary from "../components/ButtonSecondary";
+import ButtonSecondary from "../components/UI/ButtonSecondary";
 
 const AuthScreen = props => {
   const dispatch = useDispatch();

@@ -2,11 +2,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import colors from "../../constants/colors";
 import defaultNavOptions from "../../constants/defaultNavOptions";
-import ArticlesOverviewScreen, {
-  articleOverviewOptions,
-} from "../../screens/ArticlesOverviewScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UserScreen, { userOptions } from "../../screens//UserScreen";
+import ArticlesNavigator from "./ArticlesNavigator";
 
 const HomeTabNavigator = createBottomTabNavigator();
 
@@ -17,7 +15,7 @@ const HomeNavigator = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "ArticlesOverview") {
+          if (route.name === "Articles") {
             iconName = "reader-outline";
           } else if (route.name === "User") {
             iconName = "person-outline";
@@ -31,9 +29,9 @@ const HomeNavigator = () => {
         ...defaultNavOptions,
       })}>
       <HomeTabNavigator.Screen
-        name="ArticlesOverview"
-        component={ArticlesOverviewScreen}
-        options={articleOverviewOptions}
+        name="Articles"
+        component={ArticlesNavigator}
+        options={{ headerShown: false }}
       />
       <HomeTabNavigator.Screen
         name="User"

@@ -8,7 +8,7 @@ import {
   Image,
   Text,
 } from "react-native";
-import ButtonPrimary from "../components/ButtonPrimary";
+import ButtonPrimary from "../components/UI/ButtonPrimary";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../store/auth/authThunks";
 import colors from "../constants/colors";
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.secondary.main,
     marginRight: 16,
   },

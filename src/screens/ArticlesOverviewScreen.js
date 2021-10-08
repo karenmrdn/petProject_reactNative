@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import { useSelector } from "react-redux";
-import ArticleItem from "../components/ArticleItem";
+import ArticleItem from "../components/article/ArticleItem";
 
 const ArticlesOverviewScreen = props => {
   const articles = useSelector(state => state.articles.articles);
@@ -33,6 +33,15 @@ const ArticlesOverviewScreen = props => {
             header={article.item.header}
             imageUrl={article.item.imageUrl}
             tags={article.item.tags}
+            onPress={() =>
+              props.navigation.navigate("ArticleDetails", {
+                authorId: article.item.authorId,
+                imageUrl: article.item.imageUrl,
+                header: article.item.header,
+                body: article.item.body,
+                tags: article.item.tags,
+              })
+            }
           />
         )}
       />

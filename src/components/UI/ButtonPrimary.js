@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Button, StyleSheet } from "react-native";
-import colors from "../constants/colors";
+import colors from "../../constants/colors";
 
 const ButtonPrimary = props => {
   return (

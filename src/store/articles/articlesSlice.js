@@ -1,17 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Article from "../../models/article";
 
 const articlesSlice = createSlice({
   name: "Articles",
   initialState: {
     articles: [
-      // new Article(
-      //   "u1",
-      //   "https://kod.ru/content/images/size/w1050/2021/10/814f2912-cf45-4865-9538-639d858a93a6.jpg",
-      //   "Facebook заблокировала разработчика, который сделал расширение для отписки от всего",
-      //   "Как сообщает Slate Magazine, Unfollow Everything был опубликован в Chrome Store в прошлом году, однако через некоторое время Facebook потребовала от Барклая удалить его. Но несмотря на то, что он выполнил требование из-за нежелания получить иск, компания навсегда заблокировала аккаунты Луи в Facebook и Instagram.",
-      //   ["news", "facebook"],
-      // ),
       {
         id: "a1",
         authorId: "u1",

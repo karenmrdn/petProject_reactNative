@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, View, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { errorsActions } from "../store/errors/errorsSlice";
-import ButtonPrimary from "../components/ButtonPrimary";
-import Card from "../components/Card";
+import { errorsActions } from "../../store/errors/errorsSlice";
+import ButtonPrimary from "./ButtonPrimary";
+import Card from "./Card";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import colors from "../constants/colors";
+import colors from "../../constants/colors";
 
 const ErrorModal = () => {
   const dispatch = useDispatch();

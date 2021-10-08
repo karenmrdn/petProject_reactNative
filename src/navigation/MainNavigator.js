@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import HomeNavigator from "./navigators/HomeNavigator";
 import AuthNavigator from "./navigators/AuthNavigator";
-import ErrorModal from "../components/ErrorModal";
+import ErrorModal from "../components/UI/ErrorModal";
 import auth from "@react-native-firebase/auth";
 import colors from "../constants/colors";
 import { useDispatch } from "react-redux";
