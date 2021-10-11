@@ -7,6 +7,9 @@ import defaultNavOptions from "../../constants/defaultNavOptions";
 import ArticlesOverviewScreen, {
   articleOverviewOptions,
 } from "../../screens/ArticlesOverviewScreen";
+import NewArticleScreen, {
+  newArticleOptions,
+} from "../../screens/NewArticleScreen";
 
 const ArticlesStackNavigator = createStackNavigator();
 
@@ -22,6 +25,11 @@ const ArticlesNavigator = () => {
         name="ArticleDetails"
         component={ArticleDetails}
         options={articleDetailsOptions}
+      />
+      <ArticlesStackNavigator.Screen
+        name="NewArticle"
+        component={NewArticleScreen}
+        options={newArticleOptions}
       />
     </ArticlesStackNavigator.Navigator>
   );

@@ -17,7 +17,7 @@ const CircularButton = props => {
 
   return (
     <View style={[styles.touchableContainer, props.style]}>
-      <TouchableComponent>
+      <TouchableComponent onPress={props.onPress}>
         <View style={styles.iconContainer}>
           <Icon name={props.iconName} size={32} color="#fff" />
         </View>

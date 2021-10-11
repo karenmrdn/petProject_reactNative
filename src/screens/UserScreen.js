@@ -11,11 +11,10 @@ import ButtonPrimary from "../components/UI/ButtonPrimary";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../store/auth/authThunks";
 import colors from "../constants/colors";
-import Icon from "react-native-vector-icons/Ionicons";
 import UserArticle from "../components/article/UserArticle";
 import CircularButton from "../components/UI/CircularButton";
 
-const UserScreen = () => {
+const UserScreen = props => {
   const dispatch = useDispatch();
   const displayName = useSelector(state => state.auth.displayName);
   const email = useSelector(state => state.auth.email);
@@ -46,7 +45,7 @@ const UserScreen = () => {
           onPress={() => dispatch(signOut())}
           style={{ marginBottom: 8 }}
         />
-        {userArticles.length !== 0 ? (
+        {userArticles.length === 0 ? (
           <View style={styles.centered}>
             <CircularButton iconName="add" />
           </View>
@@ -63,7 +62,13 @@ const UserScreen = () => {
                   tags={article.tags}
                 />
               ))}
-              <CircularButton iconName="add" style={styles.floatingBtn} />
+              <CircularButton
+                iconName="add"
+                style={styles.floatingBtn}
+                onPress={() => {
+                  props.navigation.navigate("NewArticle");
+                }}
+              />
             </View>
           </ScrollView>
         )}

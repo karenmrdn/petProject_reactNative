@@ -27,3 +27,4 @@ export const fetchArticles = () => async dispatch => {
 
   firestore().collection("articles").onSnapshot(onResult, onError);
 };
+
