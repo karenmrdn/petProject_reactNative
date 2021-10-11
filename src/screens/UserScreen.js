@@ -2,63 +2,81 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  Platform,
   Image,
   Text,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
 import ButtonPrimary from "../components/UI/ButtonPrimary";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../store/auth/authThunks";
 import colors from "../constants/colors";
 import Icon from "react-native-vector-icons/Ionicons";
+import UserArticle from "../components/article/UserArticle";
+import CircularButton from "../components/UI/CircularButton";
 
 const UserScreen = () => {
   const dispatch = useDispatch();
   const displayName = useSelector(state => state.auth.displayName);
   const email = useSelector(state => state.auth.email);
   const photoUrl = useSelector(state => state.auth.photoUrl);
-
-  let TouchableComponent = TouchableOpacity;
-  if (Platform.OS === "android" && Platform.Version >= 21) {
-    TouchableComponent = TouchableNativeFeedback;
-  }
+  const userArticles = useSelector(state =>
+    state.articles.articles?.filter(article => article.authorId === "u1"),
+  );
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.infoBlock}>
-        <Image
-          source={
-            photoUrl ? { uri: photoUrl } : require("../assets/noImage.jpg")
-          }
-          style={styles.avatar}
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.wrapper}>
+        <View style={styles.infoBlock}>
+          <Image
+            source={
+              photoUrl ? { uri: photoUrl } : require("../assets/noImage.jpg")
+            }
+            style={styles.avatar}
+          />
+          <View>
+            <Text style={styles.displayName}>
+              {displayName ? displayName : email}
+            </Text>
+            {displayName && <Text>{email}</Text>}
+          </View>
+        </View>
+        <ButtonPrimary
+          title="Logout"
+          onPress={() => dispatch(signOut())}
+          style={{ marginBottom: 8 }}
         />
-        <View>
-          <Text style={styles.displayName}>
-            {displayName ? displayName : email}
-          </Text>
-          {displayName && <Text>{email}</Text>}
-        </View>
-      </View>
-      <ButtonPrimary title="Logout" onPress={() => dispatch(signOut())} />
-      <View style={styles.centered}>
-        <View style={styles.touchableContainer}>
-          <TouchableComponent>
-            <View style={styles.iconContainer}>
-              <Icon name="add" size={32} color="#fff" />
+        {userArticles.length !== 0 ? (
+          <View style={styles.centered}>
+            <CircularButton iconName="add" />
+          </View>
+        ) : (
+          <ScrollView>
+            <View style={styles.articlesContainer}>
+              <Text style={styles.articlesText}>List of your articles</Text>
+              {userArticles.map(article => (
+                <UserArticle
+                  key={article.id}
+                  imageUrl={article.imageUrl}
+                  header={article.header}
+                  body={article.body}
+                  tags={article.tags}
+                />
+              ))}
+              <CircularButton iconName="add" style={styles.floatingBtn} />
             </View>
-          </TouchableComponent>
-        </View>
+          </ScrollView>
+        )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    margin: 16,
     flex: 1,
+    margin: 16,
+    marginBottom: 0,
   },
   infoBlock: {
     flexDirection: "row",
@@ -77,29 +95,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: colors.secondary.main,
-    // marginBottom: 8,
   },
   centered: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  touchableContainer: {
-    borderRadius: 22,
-    overflow: "hidden",
-    // elevation: 8,
-    // shadowColor: "#000",
-    // shadowOffset: { width: 2, height: 0 },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 2,
+  articlesText: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 20,
   },
-  iconContainer: {
-    backgroundColor: colors.secondary.main,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: "center",
-    alignItems: "center",
+  floatingBtn: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
   },
 });
 
