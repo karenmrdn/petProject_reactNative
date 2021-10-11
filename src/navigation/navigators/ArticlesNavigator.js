@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ArticleDetails, {
   articleDetailsOptions,
-} from "../../components/article/ArticleDetails";
+} from "../../screens/ArticleDetails";
 import defaultNavOptions from "../../constants/defaultNavOptions";
 import ArticlesOverviewScreen, {
   articleOverviewOptions,

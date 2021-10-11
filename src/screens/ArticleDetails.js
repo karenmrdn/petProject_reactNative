@@ -7,15 +7,15 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import colors from "../../constants/colors";
+import colors from "../constants/colors";
 
 const ArticleDetails = props => {
   const params = props.route.params;
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <SafeAreaView>
       <ScrollView>
-        <View style={{ flex: 1 }}>
+        <View style={styles.wrapper}>
           <View style={styles.tagsContainer}>
             {params.tags?.map(tag => (
               <View style={styles.tagItem} key={tag}>
@@ -28,7 +28,7 @@ const ArticleDetails = props => {
           <View style={styles.authorContainer}>
             <Image
               style={styles.authorAvatar}
-              source={require("../../assets/noImage.jpg")}
+              source={require("../assets/noImage.jpg")}
             />
             <View style={styles.infoContainer}>
               <Text style={styles.authorName}>Name Surname</Text>
@@ -44,8 +44,9 @@ const ArticleDetails = props => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    margin: 16,
-    marginBottom: 0,
+    flex: 1,
+    padding: 16,
+    paddingBottom: 0,
   },
   image: {
     width: "100%",

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainNavigator from "./src/navigation/MainNavigator";
-import StoreProvider from "./src/store/StoreProvider";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { useDispatch } from "react-redux";
+import { fetchArticles } from "./src/store/articles/articlesThunks";
 
 GoogleSignin.configure({
   webClientId:
@@ -9,11 +10,13 @@ GoogleSignin.configure({
 });
 
 const App = () => {
-  return (
-    <StoreProvider>
-      <MainNavigator />
-    </StoreProvider>
-  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchArticles());
+  }, []);
+
+  return <MainNavigator />;
 };
 
 export default App;

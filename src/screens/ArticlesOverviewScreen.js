@@ -28,21 +28,23 @@ const ArticlesOverviewScreen = props => {
       <FlatList
         data={articles}
         renderItem={article => (
-          <ArticleItem
-            style={styles.articleItem}
-            header={article.item.header}
-            imageUrl={article.item.imageUrl}
-            tags={article.item.tags}
-            onPress={() =>
-              props.navigation.navigate("ArticleDetails", {
-                authorId: article.item.authorId,
-                imageUrl: article.item.imageUrl,
-                header: article.item.header,
-                body: article.item.body,
-                tags: article.item.tags,
-              })
-            }
-          />
+          <View>
+            <ArticleItem
+              style={styles.articleItem}
+              header={article.item.header}
+              imageUrl={article.item.imageUrl}
+              tags={article.item.tags}
+              onPress={() =>
+                props.navigation.navigate("ArticleDetails", {
+                  authorId: article.item.authorId,
+                  imageUrl: article.item.imageUrl,
+                  header: article.item.header,
+                  body: article.item.body,
+                  tags: article.item.tags,
+                })
+              }
+            />
+          </View>
         )}
       />
     </SafeAreaView>
@@ -68,8 +70,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   articleItem: {
-    margin: 16,
-    marginBottom: 0,
+    padding: 16,
   },
 });
 
