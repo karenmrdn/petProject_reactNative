@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import ArticleDetails, {
+import ArticleDetailsScreen, {
   articleDetailsOptions,
-} from "../../screens/ArticleDetails";
+} from "../../screens/ArticleDetailsScreen";
 import defaultNavOptions from "../../constants/defaultNavOptions";
 import ArticlesOverviewScreen, {
   articleOverviewOptions,
@@ -23,7 +23,7 @@ const ArticlesNavigator = () => {
       />
       <ArticlesStackNavigator.Screen
         name="ArticleDetails"
-        component={ArticleDetails}
+        component={ArticleDetailsScreen}
         options={articleDetailsOptions}
       />
       <ArticlesStackNavigator.Screen

@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
-  ScrollView,
+  ActivityIndicator,
   FlatList,
 } from "react-native";
 import { useSelector } from "react-redux";
@@ -12,6 +12,17 @@ import ArticleItem from "../components/article/ArticleItem";
 
 const ArticlesOverviewScreen = props => {
   const articles = useSelector(state => state.articles.articles);
+  const isArticlesLoading = useSelector(
+    state => state.articles.isArticlesLoading,
+  );
+
+  if (isArticlesLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   if (articles.length === 0) {
     return (

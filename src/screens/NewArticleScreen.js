@@ -5,25 +5,36 @@ import { useFormik } from "formik";
 import newArticleValidationSchema from "../validation/newArticleValidationSchema";
 import ButtonPrimary from "../components/UI/ButtonPrimary";
 import colors from "../constants/colors";
+import { addArticleAsync } from "../store/articles/articlesThunks";
+import { useDispatch } from "react-redux";
 
 const NewArticleScreen = props => {
+  const dispatch = useDispatch();
+
   const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
     useFormik({
       initialValues: {
-        header: "",
-        body: "",
-        imageUrl: "",
-        tags: "",
+        header: "Header",
+        body: "It is a body",
+        imageUrl:
+          "https://images.unsplash.com/photo-1544526226-d4568090ffb8?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+        tags: "News,Autumn, Fall   ,   NewTag",
       },
       validationSchema: newArticleValidationSchema,
       onSubmit: values => {
-        console.log(values);
+        // console.log(values);
+        const tagsArr = values.tags.split(",").map(tag => tag.trim());
+        // console.log("tagsArr -", tagsArr);
+
+        dispatch(
+          addArticleAsync(values.header, values.body, values.imageUrl, tagsArr),
+        ).then(() => props.navigation.goBack());
       },
     });
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.wrapper}>
           <ValidatedTextInput
             label="Header"
@@ -32,6 +43,7 @@ const NewArticleScreen = props => {
             onBlur={handleBlur("header")}
             error={errors.header}
             touched={touched.header}
+            multiline={true}
           />
           <ValidatedTextInput
             label="Body"

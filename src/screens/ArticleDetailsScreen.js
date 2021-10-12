@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import colors from "../constants/colors";
 
-const ArticleDetails = props => {
+const ArticleDetailsScreen = props => {
   const params = props.route.params;
 
   return (
@@ -92,4 +92,4 @@ export const articleDetailsOptions = {
   headerTitle: "Article details",
 };
 
-export default ArticleDetails;
+export default ArticleDetailsScreen;
