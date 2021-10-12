@@ -35,7 +35,7 @@ const ArticleDetailsScreen = props => {
               <Text style={styles.date}>Feb 01, 1970 - 00:01</Text>
             </View>
           </View>
-          <Text>{params.body}</Text>
+          <Text style={styles.body}>{params.body}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -86,6 +86,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   date: {},
+  body: {
+    fontSize: 16,
+    paddingBottom: 16,
+  },
 });
 
 export const articleDetailsOptions = {

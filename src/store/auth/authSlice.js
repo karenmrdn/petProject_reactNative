@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
+    userId: null,
     displayName: "",
     email: "",
     photoUrl: "",
@@ -13,6 +14,7 @@ const authSlice = createSlice({
       state.isGettingAuthData = !state.isGettingAuthData;
     },
     setUserData(state, action) {
+      state.userId = action.payload.userId;
       state.displayName = action.payload.displayName;
       state.email = action.payload.email;
       state.photoUrl = action.payload.photoUrl;

@@ -25,17 +25,20 @@ export const fetchArticles = () => dispatch => {
     dispatch(articlesActions.setArticles(articlesArr));
   };
 
-  firestore().collection("articles").onSnapshot(onResult, onError);
+  firestore()
+    .collection("articles")
+    .orderBy("timestamp", "desc")
+    .onSnapshot(onResult, onError);
 };
 
 export const addArticleAsync =
-  (header, body, imageUrl, tags) => async dispatch => {
+  (userId, header, body, imageUrl, tags, timestamp) => async dispatch => {
     dispatch(articlesActions.toggleIsArticlesLoading());
 
     try {
       await firestore()
         .collection("articles")
-        .add({ authorId: "u1", header, body, imageUrl, tags });
+        .add({ authorId: userId, header, body, imageUrl, tags, timestamp });
     } catch (error) {
       dispatch(errorsActions.setError(error?.message ?? error));
     }

@@ -13,14 +13,16 @@ import { signOut } from "../store/auth/authThunks";
 import colors from "../constants/colors";
 import UserArticle from "../components/article/UserArticle";
 import CircularButton from "../components/UI/CircularButton";
+import Card from "../components/UI/Card";
 
 const UserScreen = props => {
   const dispatch = useDispatch();
   const displayName = useSelector(state => state.auth.displayName);
   const email = useSelector(state => state.auth.email);
   const photoUrl = useSelector(state => state.auth.photoUrl);
+  const userId = useSelector(state => state.auth.userId);
   const userArticles = useSelector(state =>
-    state.articles.articles?.filter(article => article.authorId === "u1"),
+    state.articles.articles?.filter(article => article.authorId === userId),
   );
 
   return (
@@ -43,34 +45,41 @@ const UserScreen = props => {
         <ButtonPrimary
           title="Logout"
           onPress={() => dispatch(signOut())}
-          style={{ marginBottom: 8 }}
+          style={styles.btn}
         />
         {userArticles.length === 0 ? (
           <View style={styles.centered}>
-            <CircularButton iconName="add" />
+            <CircularButton
+              iconName="add"
+              onPress={() => {
+                props.navigation.navigate("NewArticle");
+              }}
+            />
           </View>
         ) : (
-          <ScrollView>
-            <View style={styles.articlesContainer}>
-              <Text style={styles.articlesText}>List of your articles</Text>
-              {userArticles.map(article => (
-                <UserArticle
-                  key={article.id}
-                  imageUrl={article.imageUrl}
-                  header={article.header}
-                  body={article.body}
-                  tags={article.tags}
+          <View style={styles.usersArticles}>
+            <Text style={styles.articlesText}>List of your articles</Text>
+            <ScrollView>
+              <View style={styles.articlesContainer}>
+                {userArticles.map(article => (
+                  <UserArticle
+                    key={article.id}
+                    imageUrl={article.imageUrl}
+                    header={article.header}
+                    body={article.body}
+                    tags={article.tags}
+                  />
+                ))}
+                <CircularButton
+                  iconName="add"
+                  style={styles.floatingBtn}
+                  onPress={() => {
+                    props.navigation.navigate("NewArticle");
+                  }}
                 />
-              ))}
-              <CircularButton
-                iconName="add"
-                style={styles.floatingBtn}
-                onPress={() => {
-                  props.navigation.navigate("NewArticle");
-                }}
-              />
-            </View>
-          </ScrollView>
+              </View>
+            </ScrollView>
+          </View>
         )}
       </View>
     </SafeAreaView>
@@ -109,13 +118,22 @@ const styles = StyleSheet.create({
   articlesText: {
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 24,
+    marginBottom: 8,
   },
   floatingBtn: {
     position: "absolute",
     bottom: 20,
     right: 20,
   },
+  usersArticles: {
+    flex: 1,
+    marginBottom: 8,
+    borderTopWidth: 1,
+    borderTopColor: "#ccc",
+    paddingTop: 8,
+  },
+  btn: { marginBottom: 16 },
 });
 
 export const userOptions = {

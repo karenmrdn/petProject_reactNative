@@ -23,7 +23,6 @@ const UserArticle = props => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    // flexDirection: "row",
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
