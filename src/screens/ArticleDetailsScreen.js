@@ -11,6 +11,7 @@ import colors from "../constants/colors";
 
 const ArticleDetailsScreen = props => {
   const params = props.route.params;
+  const creationDate = new Date(params.timestamp).toLocaleString();
 
   return (
     <SafeAreaView>
@@ -32,7 +33,7 @@ const ArticleDetailsScreen = props => {
             />
             <View style={styles.infoContainer}>
               <Text style={styles.authorName}>Name Surname</Text>
-              <Text style={styles.date}>Feb 01, 1970 - 00:01</Text>
+              <Text style={styles.date}>{creationDate}</Text>
             </View>
           </View>
           <Text style={styles.body}>{params.body}</Text>

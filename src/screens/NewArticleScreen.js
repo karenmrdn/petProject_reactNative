@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import ValidatedTextInput from "../components/UI/ValidatedTextInput";
 import { useFormik } from "formik";
 import newArticleValidationSchema from "../validation/newArticleValidationSchema";
@@ -11,14 +17,17 @@ import { useDispatch, useSelector } from "react-redux";
 const NewArticleScreen = props => {
   const dispatch = useDispatch();
   const userId = useSelector(state => state.auth.userId);
+  const isArticlesLoading = useSelector(
+    state => state.articles.isArticlesLoading,
+  );
 
   const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
     useFormik({
       initialValues: {
-        header: "",
-        body: "",
+        header: "New article",
+        body: "New article body",
         imageUrl: "",
-        tags: "",
+        tags: "Tag1, Tag2",
       },
       validationSchema: newArticleValidationSchema,
       onSubmit: values => {
@@ -31,7 +40,7 @@ const NewArticleScreen = props => {
             values.body,
             values.imageUrl,
             tagsArr,
-            Date.now()
+            Date.now(),
           ),
         ).then(() => props.navigation.goBack());
       },
@@ -75,12 +84,17 @@ const NewArticleScreen = props => {
             error={errors.tags}
             touched={touched.tags}
           />
-          <ButtonPrimary
-            title="Create"
-            style={styles.btn}
-            color={colors.secondary.main}
-            onPress={handleSubmit}
-          />
+          <View style={styles.btnContainer}>
+            {isArticlesLoading ? (
+              <ActivityIndicator size="large" color={colors.secondary.main} />
+            ) : (
+              <ButtonPrimary
+                title="Create"
+                color={colors.secondary.main}
+                onPress={handleSubmit}
+              />
+            )}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -92,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 16,
   },
-  btn: {
+  btnContainer: {
     marginTop: 12,
   },
 });

@@ -1,21 +1,36 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
 import colors from "../../constants/colors";
 import ButtonPrimary from "../UI/ButtonPrimary";
-import Icon from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 
 const UserArticle = props => {
+  const isArticlesLoading = useSelector(
+    state => state.articles.isArticlesLoading,
+  );
+
   return (
     <View style={[styles.wrapper, props.styles]}>
       <Image source={{ uri: props.imageUrl }} style={styles.image} />
       <Text style={styles.header}>{props.header}</Text>
       <View style={styles.actionsContainer}>
-        <ButtonPrimary
-          title="Delete"
-          color={colors.error.e900}
-          style={styles.btn}
-        />
-        <ButtonPrimary title="Edit" style={styles.btn} />
+        {isArticlesLoading ? (
+          <ActivityIndicator size="large" color={colors.primary.main} />
+        ) : (
+          <>
+            <ButtonPrimary
+              title="Delete"
+              color={colors.error.e900}
+              style={styles.btn}
+              onPress={props.onDelete}
+            />
+            <ButtonPrimary
+              title="Edit"
+              style={styles.btn}
+              onPress={props.onEdit}
+            />
+          </>
+        )}
       </View>
     </View>
   );

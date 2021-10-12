@@ -6,6 +6,8 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import ButtonPrimary from "../components/UI/ButtonPrimary";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +15,7 @@ import { signOut } from "../store/auth/authThunks";
 import colors from "../constants/colors";
 import UserArticle from "../components/article/UserArticle";
 import CircularButton from "../components/UI/CircularButton";
-import Card from "../components/UI/Card";
+import { deleteArticleAsync } from "../store/articles/articlesThunks";
 
 const UserScreen = props => {
   const dispatch = useDispatch();
@@ -24,6 +26,20 @@ const UserScreen = props => {
   const userArticles = useSelector(state =>
     state.articles.articles?.filter(article => article.authorId === userId),
   );
+  const isArticlesLoading = useSelector(
+    state => state.articles.isArticlesLoading,
+  );
+
+  const handleArticleDelete = articleId => {
+    Alert.alert("Are you sure?", "The article will be deleted permanently.", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "OK",
+        onPress: () => dispatch(deleteArticleAsync(articleId)),
+        style: "destructive",
+      },
+    ]);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -68,6 +84,8 @@ const UserScreen = props => {
                     header={article.header}
                     body={article.body}
                     tags={article.tags}
+                    onDelete={() => handleArticleDelete(article.id)}
+                    onEdit={() => console.log("Edit")}
                   />
                 ))}
                 <CircularButton

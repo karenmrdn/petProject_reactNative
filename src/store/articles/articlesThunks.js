@@ -19,6 +19,7 @@ export const fetchArticles = () => dispatch => {
         header: data.header,
         body: data.body,
         tags: data.tags,
+        timestamp: data.timestamp,
       });
     });
 
@@ -45,3 +46,15 @@ export const addArticleAsync =
 
     dispatch(articlesActions.toggleIsArticlesLoading());
   };
+
+export const deleteArticleAsync = articleId => async dispatch => {
+  dispatch(articlesActions.toggleIsArticlesLoading());
+
+  try {
+    await firestore().collection("articles").doc(articleId).delete();
+  } catch (error) {
+    dispatch(errorsActions.setError(error?.message ?? error));
+  }
+
+  dispatch(articlesActions.toggleIsArticlesLoading());
+};

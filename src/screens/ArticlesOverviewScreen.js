@@ -52,6 +52,7 @@ const ArticlesOverviewScreen = props => {
                   header: article.item.header,
                   body: article.item.body,
                   tags: article.item.tags,
+                  timestamp: article.item.timestamp,
                 })
               }
             />
