@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
+    // elevation: 8,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 2, height: 0 },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 2,
   },
 });
 

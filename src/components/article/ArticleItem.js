@@ -39,6 +39,7 @@ const ArticleItem = props => {
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1,
     borderBottomWidth: 1,
     paddingBottom: 8,
     borderColor: "#ddd",
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   tagsContainer: {
+    flex: 1,
     flexDirection: "row",
     marginTop: 8,
   },

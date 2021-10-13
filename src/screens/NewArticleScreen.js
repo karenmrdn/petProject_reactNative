@@ -24,10 +24,10 @@ const NewArticleScreen = props => {
   const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
     useFormik({
       initialValues: {
-        header: "New article",
-        body: "New article body",
+        header: "",
+        body: "",
         imageUrl: "",
-        tags: "Tag1, Tag2",
+        tags: "",
       },
       validationSchema: newArticleValidationSchema,
       onSubmit: values => {

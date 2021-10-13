@@ -6,7 +6,6 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
-  ActivityIndicator,
   Alert,
 } from "react-native";
 import ButtonPrimary from "../components/UI/ButtonPrimary";
@@ -16,6 +15,7 @@ import colors from "../constants/colors";
 import UserArticle from "../components/article/UserArticle";
 import CircularButton from "../components/UI/CircularButton";
 import { deleteArticleAsync } from "../store/articles/articlesThunks";
+import AnimatedWrapper from "../components/UI/AnimatedWrapper";
 
 const UserScreen = props => {
   const dispatch = useDispatch();
@@ -25,9 +25,6 @@ const UserScreen = props => {
   const userId = useSelector(state => state.auth.userId);
   const userArticles = useSelector(state =>
     state.articles.articles?.filter(article => article.authorId === userId),
-  );
-  const isArticlesLoading = useSelector(
-    state => state.articles.isArticlesLoading,
   );
 
   const handleArticleDelete = articleId => {
@@ -65,12 +62,14 @@ const UserScreen = props => {
         />
         {userArticles.length === 0 ? (
           <View style={styles.centered}>
-            <CircularButton
-              iconName="add"
-              onPress={() => {
-                props.navigation.navigate("NewArticle");
-              }}
-            />
+            <AnimatedWrapper>
+              <CircularButton
+                iconName="add"
+                onPress={() => {
+                  props.navigation.navigate("NewArticle");
+                }}
+              />
+            </AnimatedWrapper>
           </View>
         ) : (
           <View style={styles.usersArticles}>

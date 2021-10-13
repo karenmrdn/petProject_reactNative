@@ -22,7 +22,7 @@ const MainNavigator = props => {
 
     dispatch(
       authActions.setUserData({
-        userId: user.uid,
+        userId: user?.uid,
         displayName: user?.displayName,
         email: user?.email,
         photoUrl: user?.photoURL,
