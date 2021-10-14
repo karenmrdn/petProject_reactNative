@@ -126,8 +126,6 @@ export const setUserDataAsync =
         .get();
 
       if (documentSnapshot.exists) {
-        console.log("Account exists");
-
         const data = documentSnapshot.data();
 
         dispatch(
@@ -139,8 +137,6 @@ export const setUserDataAsync =
           }),
         );
       } else {
-        console.log("Account does not exist");
-
         await firestore().collection("users").doc(userId).set({
           displayName,
           email,

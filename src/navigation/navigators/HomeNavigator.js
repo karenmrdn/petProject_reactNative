@@ -5,6 +5,7 @@ import defaultNavOptions from "../../constants/defaultNavOptions";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UserScreen, { userOptions } from "../../screens//UserScreen";
 import ArticlesNavigator from "./ArticlesNavigator";
+import UserNavigator from "./UserNavigator";
 
 const HomeTabNavigator = createBottomTabNavigator();
 
@@ -35,8 +36,8 @@ const HomeNavigator = () => {
       />
       <HomeTabNavigator.Screen
         name="User"
-        component={UserScreen}
-        options={userOptions}
+        component={UserNavigator}
+        options={{ headerShown: false }}
       />
     </HomeTabNavigator.Navigator>
   );

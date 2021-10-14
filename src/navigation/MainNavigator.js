@@ -19,25 +19,10 @@ const MainNavigator = props => {
 
   const handleAuthStateChanged = async user => {
     setUser(user);
-    // console.log(user);
-
-    // dispatch(
-    //   authActions.setUserData({
-    //     userId: user?.uid,
-    //     displayName: user?.displayName,
-    //     email: user?.email,
-    //     photoUrl: user?.photoURL,
-    //   }),
-    // );
 
     if (user) {
       await dispatch(
-        setUserDataAsync(
-          user.uid,
-          user.displayName,
-          user.email,
-          user.photoURL,
-        ),
+        setUserDataAsync(user.uid, user.displayName, user.email, user.photoURL),
       );
     }
 
