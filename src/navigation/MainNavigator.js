@@ -9,6 +9,7 @@ import auth from "@react-native-firebase/auth";
 import colors from "../constants/colors";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth/authSlice";
+import { setUserDataAsync } from "../store/auth/authThunks";
 
 const MainNavigator = props => {
   const dispatch = useDispatch();
@@ -16,18 +17,29 @@ const MainNavigator = props => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState({});
 
-  const handleAuthStateChanged = user => {
+  const handleAuthStateChanged = async user => {
     setUser(user);
     // console.log(user);
 
-    dispatch(
-      authActions.setUserData({
-        userId: user?.uid,
-        displayName: user?.displayName,
-        email: user?.email,
-        photoUrl: user?.photoURL,
-      }),
-    );
+    // dispatch(
+    //   authActions.setUserData({
+    //     userId: user?.uid,
+    //     displayName: user?.displayName,
+    //     email: user?.email,
+    //     photoUrl: user?.photoURL,
+    //   }),
+    // );
+
+    if (user) {
+      await dispatch(
+        setUserDataAsync(
+          user.uid,
+          user.displayName,
+          user.email,
+          user.photoURL,
+        ),
+      );
+    }
 
     if (initializing) {
       setInitializing(false);

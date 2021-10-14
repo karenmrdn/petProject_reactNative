@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   textInput: {
-    borderRadius: 8,
+    borderRadius: 12,
     borderColor: "#ccc",
     borderWidth: 1,
     paddingHorizontal: 8,

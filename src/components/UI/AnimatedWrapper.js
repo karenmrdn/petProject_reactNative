@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { View, StyleSheet, Animated } from "react-native";
+import { View, StyleSheet, Animated, Easing } from "react-native";
 import colors from "../../constants/colors";
 
 const animationCircleSize = 50;
@@ -7,7 +7,7 @@ const animationCircleSize = 50;
 const AnimatedWrapper = props => {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const childrenScaleValue = useRef(new Animated.Value(1)).current;
-  const opacityValue = useRef(new Animated.Value(1)).current;
+  //   const opacityValue = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     Animated.loop(
@@ -15,21 +15,23 @@ const AnimatedWrapper = props => {
         Animated.timing(scaleValue, {
           toValue: 2,
           duration: 2000,
+          easing: Easing.elastic(),
           useNativeDriver: true,
         }),
         Animated.timing(childrenScaleValue, {
           toValue: 0.5,
           duration: 2000,
+          easing: Easing.elastic(),
           useNativeDriver: true,
         }),
-        Animated.timing(opacityValue, {
-          toValue: 0,
-          duration: 2000,
-          useNativeDriver: true,
-        }),
+        // Animated.timing(opacityValue, {
+        //   toValue: 0,
+        //   duration: 2000,
+        //   useNativeDriver: true,
+        // }),
       ]),
     ).start();
-  }, [scaleValue, opacityValue]);
+  }, [scaleValue /* , opacityValue */]);
 
   return (
     <View style={styles.centered}>

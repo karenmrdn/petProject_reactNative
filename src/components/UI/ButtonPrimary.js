@@ -17,7 +17,7 @@ const ButtonPrimary = props => {
 const styles = StyleSheet.create({
   btnContainer: {
     overflow: "hidden",
-    borderRadius: 8,
+    borderRadius: 12,
     elevation: 4,
   },
 });

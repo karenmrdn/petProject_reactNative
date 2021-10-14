@@ -3,8 +3,9 @@ import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { LoginManager, AccessToken } from "react-native-fbsdk-next";
 import { errorsActions } from "../errors/errorsSlice";
+import firestore from "@react-native-firebase/firestore";
 
-export const authorize = (email, password, isLogin) => async dispatch => {
+export const authenticate = (email, password, isLogin) => async dispatch => {
   dispatch(authActions.toggleIsGettingAuthData());
 
   try {
@@ -13,9 +14,9 @@ export const authorize = (email, password, isLogin) => async dispatch => {
     //   : auth().createUserWithEmailAndPassword;
 
     // console.log(authMethod);
-    // const authResponse = await authMethod(email, password);
+    // await authMethod(email, password);
 
-    const authResponse = isLogin
+    isLogin
       ? await auth().signInWithEmailAndPassword(email, password)
       : await auth().createUserWithEmailAndPassword(email, password);
   } catch (error) {
@@ -115,6 +116,50 @@ export const signInWithFacebook = () => async dispatch => {
 
   dispatch(authActions.toggleIsGettingAuthData());
 };
+
+export const setUserDataAsync =
+  (userId, displayName, email, photoUrl) => async dispatch => {
+    try {
+      const documentSnapshot = await firestore()
+        .collection("users")
+        .doc(userId)
+        .get();
+
+      if (documentSnapshot.exists) {
+        console.log("Account exists");
+
+        const data = documentSnapshot.data();
+
+        dispatch(
+          authActions.setUserData({
+            userId: documentSnapshot.id,
+            displayName: data.displayName,
+            email: data.email,
+            photoUrl: data.photoUrl,
+          }),
+        );
+      } else {
+        console.log("Account does not exist");
+
+        await firestore().collection("users").doc(userId).set({
+          displayName,
+          email,
+          photoUrl,
+        });
+
+        dispatch(
+          authActions.setUserData({
+            userId,
+            displayName,
+            email,
+            photoUrl,
+          }),
+        );
+      }
+    } catch (error) {
+      dispatch(errorsActions.setError(error?.message ?? error));
+    }
+  };
 
 export const signOut = () => async dispatch => {
   await auth().signOut();

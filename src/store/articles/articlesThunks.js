@@ -32,7 +32,7 @@ export const fetchArticles = () => dispatch => {
     .onSnapshot(onResult, onError);
 };
 
-export const addArticleAsync =
+export const createArticleAsync =
   (userId, header, body, imageUrl, tags, timestamp) => async dispatch => {
     dispatch(articlesActions.toggleIsArticlesLoading());
 

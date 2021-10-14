@@ -30,7 +30,7 @@ const ButtonSecondary = props => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    borderRadius: 8,
+    borderRadius: 12,
     elevation: 8,
     overflow: "hidden",
   },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor: colors.secondary.main,
     borderWidth: 3,
-    borderRadius: 8,
+    borderRadius: 12,
     padding: 8,
     backgroundColor: "#fff",
     elevation: 8,

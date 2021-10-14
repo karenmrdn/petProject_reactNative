@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     padding: 16,
     backgroundColor: "#fff",
-    borderRadius: 8,
+    borderRadius: 12,
   },
 });
 

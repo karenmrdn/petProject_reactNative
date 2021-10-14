@@ -39,24 +39,22 @@ const ArticlesOverviewScreen = props => {
       <FlatList
         data={articles}
         renderItem={article => (
-          <View>
-            <ArticleItem
-              style={styles.articleItem}
-              header={article.item.header}
-              imageUrl={article.item.imageUrl}
-              tags={article.item.tags}
-              onPress={() =>
-                props.navigation.navigate("ArticleDetails", {
-                  authorId: article.item.authorId,
-                  imageUrl: article.item.imageUrl,
-                  header: article.item.header,
-                  body: article.item.body,
-                  tags: article.item.tags,
-                  timestamp: article.item.timestamp,
-                })
-              }
-            />
-          </View>
+          <ArticleItem
+            style={styles.articleItem}
+            header={article.item.header}
+            imageUrl={article.item.imageUrl}
+            tags={article.item.tags}
+            onPress={() =>
+              props.navigation.navigate("ArticleDetails", {
+                authorId: article.item.authorId,
+                imageUrl: article.item.imageUrl,
+                header: article.item.header,
+                body: article.item.body,
+                tags: article.item.tags,
+                timestamp: article.item.timestamp,
+              })
+            }
+          />
         )}
       />
     </SafeAreaView>

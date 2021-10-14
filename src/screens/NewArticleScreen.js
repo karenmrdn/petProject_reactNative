@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import newArticleValidationSchema from "../validation/newArticleValidationSchema";
 import ButtonPrimary from "../components/UI/ButtonPrimary";
 import colors from "../constants/colors";
-import { addArticleAsync } from "../store/articles/articlesThunks";
+import { createArticleAsync } from "../store/articles/articlesThunks";
 import { useDispatch, useSelector } from "react-redux";
 
 const NewArticleScreen = props => {
@@ -34,7 +34,7 @@ const NewArticleScreen = props => {
         const tagsArr = values.tags.split(",").map(tag => tag.trim());
 
         dispatch(
-          addArticleAsync(
+          createArticleAsync(
             userId,
             values.header,
             values.body,

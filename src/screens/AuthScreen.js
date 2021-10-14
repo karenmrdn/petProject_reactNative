@@ -14,7 +14,7 @@ import authValidationSchema from "../validation/authValidationSchema";
 import ValidatedTextInput from "../components/UI/ValidatedTextInput";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  authorize,
+  authenticate,
   signInWithFacebook,
   signInWithGoogle,
 } from "../store/auth/authThunks";
@@ -40,7 +40,7 @@ const AuthScreen = props => {
     },
     validationSchema: authValidationSchema,
     onSubmit: values => {
-      dispatch(authorize(values.email, values.password, values.isLogin));
+      dispatch(authenticate(values.email, values.password, values.isLogin));
     },
   });
 
