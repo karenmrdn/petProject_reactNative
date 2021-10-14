@@ -5,6 +5,9 @@ import NewArticleScreen, {
 } from "../../screens/NewArticleScreen";
 import UserScreen, { userOptions } from "../../screens/UserScreen";
 import defaultNavOptions from "../../constants/defaultNavOptions";
+import EditProfileScreen, {
+  editProfileOptions,
+} from "../../screens/EditProfileScreen";
 
 const UserStackNavigator = createStackNavigator();
 
@@ -20,6 +23,11 @@ const UserNavigator = () => {
         name="NewArticle"
         component={NewArticleScreen}
         options={newArticleOptions}
+      />
+      <UserStackNavigator.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={editProfileOptions}
       />
     </UserStackNavigator.Navigator>
   );

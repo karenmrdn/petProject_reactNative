@@ -19,6 +19,10 @@ const authSlice = createSlice({
       state.email = action.payload.email;
       state.photoUrl = action.payload.photoUrl;
     },
+    updateUserData(state, action) {
+      state.displayName = action.payload.displayName;
+      state.photoUrl = action.payload.photoUrl;
+    },
   },
 });
 

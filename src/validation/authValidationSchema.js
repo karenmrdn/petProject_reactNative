@@ -5,7 +5,7 @@ const authValidationSchema = Yup.object().shape({
     .email("Invalid e-mail format")
     .required("E-mail is required"),
   password: Yup.string()
-    .trim("Password must not contain any spaces")
+    .trim("Password must not contain any whitespace")
     .min(8, "Password must be at least 8 letters long")
     .max(20, "Password must be no more than 20 letters long")
     .matches(

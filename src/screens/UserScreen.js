@@ -55,11 +55,21 @@ const UserScreen = props => {
             {displayName && <Text>{email}</Text>}
           </View>
         </View>
-        <ButtonPrimary
-          title="Logout"
-          onPress={() => dispatch(signOut())}
-          style={styles.btn}
-        />
+        <View style={styles.actionsContainer}>
+          <ButtonPrimary
+            title="Logout"
+            onPress={() => dispatch(signOut())}
+            style={styles.btn}
+          />
+          <ButtonPrimary
+            title="Edit profile"
+            onPress={() => {
+              props.navigation.navigate("EditProfile");
+            }}
+            color={colors.secondary.main}
+            style={styles.btn}
+          />
+        </View>
         {userArticles.length === 0 ? (
           <View style={styles.centered}>
             <AnimatedWrapper>
@@ -150,7 +160,13 @@ const styles = StyleSheet.create({
     borderTopColor: "#ccc",
     paddingTop: 8,
   },
-  btn: { marginBottom: 16 },
+  btn: { width: "45%" },
+  actionsContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 16,
+  },
 });
 
 export const userOptions = {

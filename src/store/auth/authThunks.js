@@ -157,6 +157,23 @@ export const setUserDataAsync =
     }
   };
 
+export const updateProfileInfoAsync =
+  (userId, displayName, photoUrl) => async dispatch => {
+    dispatch(authActions.toggleIsGettingAuthData());
+
+    try {
+      await firestore().collection("users").doc(userId).update({
+        displayName,
+        photoUrl,
+      });
+    } catch (error) {
+      dispatch(errorsActions.setError(error?.message ?? error));
+    }
+    dispatch(authActions.updateUserData({ displayName, photoUrl }));
+
+    dispatch(authActions.toggleIsGettingAuthData());
+  };
+
 export const signOut = () => async dispatch => {
   await auth().signOut();
 };
