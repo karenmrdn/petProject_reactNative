@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -6,12 +6,29 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import colors from "../constants/colors";
+import firestore from "@react-native-firebase/firestore";
 
 const ArticleDetailsScreen = props => {
   const params = props.route.params;
   const creationDate = new Date(params.timestamp).toLocaleString();
+  const [isGettingAuthorData, setIsGettingAuthorData] = useState(true);
+  const [displayName, setDisplayName] = useState(true);
+  const [photoUrl, setPhotoUrl] = useState(true);
+
+  useEffect(() => {
+    firestore()
+      .collection("users")
+      .doc(params.authorId)
+      .get()
+      .then(user => {
+        setDisplayName(user.data().displayName);
+        setPhotoUrl(user.data().photoUrl);
+        setIsGettingAuthorData(false);
+      });
+  }, []);
 
   return (
     <SafeAreaView>
@@ -26,16 +43,28 @@ const ArticleDetailsScreen = props => {
           </View>
           <Text style={styles.header}>{params.header}</Text>
           <Image source={{ uri: params.imageUrl }} style={styles.image} />
-          <View style={styles.authorContainer}>
-            <Image
-              style={styles.authorAvatar}
-              source={require("../assets/noImage.jpg")}
-            />
-            <View style={styles.infoContainer}>
-              <Text style={styles.authorName}>Name Surname</Text>
-              <Text style={styles.date}>{creationDate}</Text>
+          {isGettingAuthorData ? (
+            <View style={styles.centered}>
+              <ActivityIndicator color={colors.secondary.main} size="large" />
             </View>
-          </View>
+          ) : (
+            <View style={styles.authorContainer}>
+              <Image
+                style={styles.authorAvatar}
+                source={
+                  photoUrl
+                    ? { uri: photoUrl }
+                    : require("../assets/noImage.jpg")
+                }
+              />
+              <View>
+                <Text style={styles.authorName}>
+                  {displayName ?? params.email}
+                </Text>
+                <Text style={styles.date}>{creationDate}</Text>
+              </View>
+            </View>
+          )}
           <Text style={styles.body}>{params.body}</Text>
         </View>
       </ScrollView>
@@ -86,10 +115,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
-  date: {},
   body: {
     fontSize: 16,
     paddingBottom: 16,
+  },
+  centered: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 16,
   },
 });
 
