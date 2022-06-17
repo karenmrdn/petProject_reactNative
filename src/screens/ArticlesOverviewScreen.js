@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { useSelector } from "react-redux";
 import ArticleItem from "../components/article/ArticleItem";
-import ButtonPrimary from "../components/UI/ButtonPrimary";
 
 const ArticlesOverviewScreen = props => {
   const articles = useSelector(state => state.articles.articles);
@@ -37,18 +36,6 @@ const ArticlesOverviewScreen = props => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      {/* <ButtonPrimary
-        title="Get geolocation"
-        color="#50ad39"
-        onPress={handleGetLocation}
-      />
-      {!!location && (
-        <ButtonPrimary
-          title="Open map"
-          color="#7c448a"
-          onPress={handleOpenMap}
-        />
-      )} */}
       <FlatList
         data={articles}
         renderItem={article => (

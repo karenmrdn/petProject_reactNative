@@ -6,6 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import UserScreen, { userOptions } from "../../screens//UserScreen";
 import ArticlesNavigator from "./ArticlesNavigator";
 import UserNavigator from "./UserNavigator";
+import Analysis from "../../screens/Analysis";
 
 const HomeTabNavigator = createBottomTabNavigator();
 
@@ -20,6 +21,8 @@ const HomeNavigator = () => {
             iconName = "reader-outline";
           } else if (route.name === "User") {
             iconName = "person-outline";
+          } else if (route.name === "Analysis") {
+            iconName = "bar-chart-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -32,6 +35,11 @@ const HomeNavigator = () => {
       <HomeTabNavigator.Screen
         name="Articles"
         component={ArticlesNavigator}
+        options={{ headerShown: false }}
+      />
+      <HomeTabNavigator.Screen
+        name="Analysis"
+        component={Analysis}
         options={{ headerShown: false }}
       />
       <HomeTabNavigator.Screen
