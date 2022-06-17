@@ -7,9 +7,12 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
+  Platform,
+  Linking,
 } from "react-native";
 import colors from "../constants/colors";
 import firestore from "@react-native-firebase/firestore";
+import ButtonPrimary from "../components/UI/ButtonPrimary";
 
 const ArticleDetailsScreen = props => {
   const params = props.route.params;
@@ -17,6 +20,21 @@ const ArticleDetailsScreen = props => {
   const [isGettingAuthorData, setIsGettingAuthorData] = useState(true);
   const [displayName, setDisplayName] = useState(true);
   const [photoUrl, setPhotoUrl] = useState(true);
+
+  const handleOpenMap = () => {
+    const scheme = Platform.select({
+      ios: "maps:0,0?q=",
+      android: "geo:0,0?q=",
+    });
+    const latLng = `${params.location.latitude},${params.location.longitude}`;
+    const label = "Custom Label";
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`,
+    });
+
+    Linking.openURL(url);
+  };
 
   useEffect(() => {
     firestore()
@@ -65,7 +83,19 @@ const ArticleDetailsScreen = props => {
               </View>
             </View>
           )}
+          <ButtonPrimary
+            title="Check accident location"
+            onPress={handleOpenMap}
+            style={{ marginBottom: 16 }}
+          />
           <Text style={styles.body}>{params.body}</Text>
+          {params.imageUrls.map((singleUrl, index) => (
+            <Image
+              key={index}
+              source={{ uri: singleUrl }}
+              style={styles.image}
+            />
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -82,6 +112,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 200,
     borderRadius: 4,
+    marginBottom: 8,
   },
   header: {
     fontWeight: "bold",
@@ -100,7 +131,7 @@ const styles = StyleSheet.create({
   },
   authorContainer: {
     flexDirection: "row",
-    marginVertical: 8,
+    marginBottom: 8,
     alignItems: "center",
   },
   authorAvatar: {

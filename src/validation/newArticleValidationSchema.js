@@ -8,9 +8,7 @@ const newArticleValidationSchema = Yup.object().shape({
     .trim("Body must not contain any whitespace")
     .min(8, "Body must be at least 8 letters long")
     .required("Body is required"),
-  imageUrl: Yup.string()
-    .trim("Image URL must not contain any whitespace")
-    .required("Image URL is required"),
+  imageUrls: Yup.string().required("Image URL is required"),
   tags: Yup.string().required("At least one tag is required"),
 });
 

@@ -15,11 +15,13 @@ export const fetchArticles = () => dispatch => {
       articlesArr.push({
         id: documentSnapshot.id,
         authorId: data.authorId,
-        imageUrl: data.imageUrl,
+        imageUrl: data.imageUrls[0],
+        imageUrls: data.imageUrls.filter((_, index) => index !== 0) || [],
         header: data.header,
         body: data.body,
         tags: data.tags,
         timestamp: data.timestamp,
+        location: data.location,
       });
     });
 
@@ -27,19 +29,26 @@ export const fetchArticles = () => dispatch => {
   };
 
   firestore()
-    .collection("articles")
+    .collection("reports")
     .orderBy("timestamp", "desc")
     .onSnapshot(onResult, onError);
 };
 
 export const createArticleAsync =
-  (userId, header, body, imageUrl, tags, timestamp) => async dispatch => {
+  (userId, header, body, imageUrls, tags, timestamp, location) =>
+  async dispatch => {
     dispatch(articlesActions.toggleIsArticlesLoading());
 
     try {
-      await firestore()
-        .collection("articles")
-        .add({ authorId: userId, header, body, imageUrl, tags, timestamp });
+      await firestore().collection("reports").add({
+        authorId: userId,
+        header,
+        body,
+        imageUrls,
+        tags,
+        timestamp,
+        location,
+      });
     } catch (error) {
       dispatch(errorsActions.setError(error?.message ?? error));
     }
@@ -51,7 +60,7 @@ export const deleteArticleAsync = articleId => async dispatch => {
   dispatch(articlesActions.toggleIsArticlesLoading());
 
   try {
-    await firestore().collection("articles").doc(articleId).delete();
+    await firestore().collection("reports").doc(articleId).delete();
   } catch (error) {
     dispatch(errorsActions.setError(error?.message ?? error));
   }
