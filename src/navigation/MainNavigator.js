@@ -13,7 +13,7 @@ import { setUserDataAsync } from "../store/auth/authThunks";
 
 const MainNavigator = props => {
   const dispatch = useDispatch();
-  const error = useSelector(state => state.errors.error);
+  const { error, notification } = useSelector(state => state.errors);
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState({});
 
@@ -47,7 +47,7 @@ const MainNavigator = props => {
     <NavigationContainer>
       {!user && <AuthNavigator />}
       {!!user && <HomeNavigator />}
-      {!!error && <ErrorModal />}
+      {(!!error || !!notification) && <ErrorModal />}
     </NavigationContainer>
   );
 };

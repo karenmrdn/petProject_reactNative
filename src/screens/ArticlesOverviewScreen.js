@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,17 @@ import {
   SafeAreaView,
   ActivityIndicator,
   FlatList,
+  PermissionsAndroid,
+  Platform,
+  Linking,
 } from "react-native";
 import { useSelector } from "react-redux";
 import ArticleItem from "../components/article/ArticleItem";
+import ButtonPrimary from "../components/UI/ButtonPrimary";
+import Geolocation from "react-native-geolocation-service";
 
 const ArticlesOverviewScreen = props => {
+  const [location, setLocation] = useState(null);
   const articles = useSelector(state => state.articles.articles);
   const isArticlesLoading = useSelector(
     state => state.articles.isArticlesLoading,
@@ -34,8 +40,81 @@ const ArticlesOverviewScreen = props => {
     );
   }
 
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: "Cool Photo App Camera Permission",
+          message:
+            "Cool Photo App needs access to your camera " +
+            "so you can take awesome pictures.",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK",
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  };
+
+  const handleTest = async () => {
+    const hasLocationPermission = await requestLocationPermission();
+
+    if (hasLocationPermission) {
+      Geolocation.getCurrentPosition(
+        position => {
+          console.log("lat", position.coords.latitude);
+          console.log("lon", position.coords.longitude);
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        error => {
+          console.log(error.code, error.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+      );
+    }
+  };
+
+  const handleOpenMap = () => {
+    const scheme = Platform.select({
+      ios: "maps:0,0?q=",
+      android: "geo:0,0?q=",
+    });
+    const latLng = `${location.latitude},${location.longitude}`;
+    const label = "Custom Label";
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`,
+    });
+
+    Linking.openURL(url);
+  };
+
   return (
     <SafeAreaView style={styles.wrapper}>
+      <ButtonPrimary
+        title="Get geolocation"
+        color="#50ad39"
+        onPress={handleTest}
+      />
+      {!!location && (
+        <ButtonPrimary
+          title="Open map"
+          color="#7c448a"
+          onPress={handleOpenMap}
+        />
+      )}
       <FlatList
         data={articles}
         renderItem={article => (

@@ -13,6 +13,7 @@ import ButtonPrimary from "../components/UI/ButtonPrimary";
 import colors from "../constants/colors";
 import { createArticleAsync } from "../store/articles/articlesThunks";
 import { useDispatch, useSelector } from "react-redux";
+import { errorsActions } from "../store/errors/errorsSlice";
 
 const NewArticleScreen = props => {
   const dispatch = useDispatch();
@@ -30,10 +31,10 @@ const NewArticleScreen = props => {
         tags: "",
       },
       validationSchema: newArticleValidationSchema,
-      onSubmit: values => {
+      onSubmit: async values => {
         const tagsArr = values.tags.split(",").map(tag => tag.trim());
 
-        dispatch(
+        await dispatch(
           createArticleAsync(
             userId,
             values.header,
@@ -42,7 +43,13 @@ const NewArticleScreen = props => {
             tagsArr,
             Date.now(),
           ),
-        ).then(() => props.navigation.goBack());
+        );
+        await dispatch(
+          errorsActions.setNotification(
+            "Do you want to immediately make a report to the call center?",
+          ),
+        );
+        props.navigation.goBack();
       },
     });
 

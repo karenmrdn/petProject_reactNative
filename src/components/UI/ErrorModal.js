@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, View, StyleSheet, Text } from "react-native";
+import { Modal, View, StyleSheet, Text, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { errorsActions } from "../../store/errors/errorsSlice";
 import ButtonPrimary from "./ButtonPrimary";
@@ -9,30 +9,56 @@ import colors from "../../constants/colors";
 
 const ErrorModal = () => {
   const dispatch = useDispatch();
-  const error = useSelector(state => state.errors.error);
+  const { error, notification } = useSelector(state => state.errors);
 
   const handleClose = () => {
     dispatch(errorsActions.setError(null));
+    dispatch(errorsActions.setNotification(null));
+  };
+
+  const handleCall = () => {
+    Linking.openURL(`tel:0637554666`);
+    handleClose();
   };
 
   return (
     <Modal
       animationType="fade"
       transparent={true}
-      visible={!!error}
+      visible={!!error || !!notification}
       onRequestClose={handleClose}>
       <View style={styles.modal}>
         <Card style={styles.modalCard}>
-          <View style={styles.iconContainer}>
-            <Ionicons name="close-circle-outline" color="#fff" size={60} />
+          <View
+            style={{
+              ...styles.iconContainer,
+              backgroundColor: error ? colors.error.e500 : colors.warn.main,
+            }}>
+            <Ionicons
+              name={error ? "close-circle-outline" : "call-outline"}
+              color="#fff"
+              size={60}
+            />
           </View>
-          <Text style={styles.textPrimary}>Ooops!</Text>
-          <Text style={styles.textSecondary}>{error}</Text>
-          <ButtonPrimary
-            title="Close"
-            onPress={handleClose}
-            style={styles.btn}
-          />
+          <Text style={styles.textPrimary}>
+            {error ? "Ooops!" : "Notification"}
+          </Text>
+          <Text style={styles.textSecondary}>{error ?? notification}</Text>
+          <View style={styles.buttonsContainer}>
+            <ButtonPrimary
+              title="Close"
+              onPress={handleClose}
+              style={styles.btn}
+            />
+            {!!notification && (
+              <ButtonPrimary
+                title="Call"
+                color={colors.secondary.main}
+                onPress={handleCall}
+                style={styles.btn}
+              />
+            )}
+          </View>
         </Card>
       </View>
     </Modal>
@@ -76,8 +102,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   btn: {
-    width: "50%",
+    width: "40%",
     marginTop: 16,
+  },
+  buttonsContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
 });
 

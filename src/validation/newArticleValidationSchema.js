@@ -10,7 +10,6 @@ const newArticleValidationSchema = Yup.object().shape({
     .required("Body is required"),
   imageUrl: Yup.string()
     .trim("Image URL must not contain any whitespace")
-    .url("Valid URL is required")
     .required("Image URL is required"),
   tags: Yup.string().required("At least one tag is required"),
 });
